@@ -4,6 +4,7 @@
   "main": "index.js",
   "repository": "https://github.com/hunter-z-hunter/hunter-z-hunter",
   "license": "MIT",
+  "private": true,
   "workspaces": [
     "packages/*"
   ],
