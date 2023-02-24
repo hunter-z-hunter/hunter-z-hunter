@@ -1,0 +1,15 @@
+{
+  "name": "hunter-z-hunter",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/hunter-z-hunter/hunter-z-hunter",
+  "license": "MIT",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "contracts": "yarn workspace @hunter-z-hunter/contracts run",
+    "image-service": "yarn workspace @hunter-z-hunter/image-service run",
+    "frontend": "yarn workspace @hunter-z-hunter/frontend run"
+  }
+}
