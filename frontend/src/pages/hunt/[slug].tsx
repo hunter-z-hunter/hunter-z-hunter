@@ -16,13 +16,15 @@ export default function Hunt() {
     }
 
     // Send the form data to the Next.js API for processing
-    const response = await fetch("/api/process-image", {
+    const response = await fetch("/api/submit-photo", {
       method: "POST",
       body: formData,
     });
     if (!response.ok) {
       console.error("Response: ", response.statusText);
       return;
+    } else {
+      console.log("Response: ", response);
     }
   };
 
