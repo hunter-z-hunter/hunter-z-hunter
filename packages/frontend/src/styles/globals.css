@@ -2,6 +2,34 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  box-sizing: border-box;
+}
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+@layer base {
+  body {
+    @apply bg-neutral-100;
+  }
+}
+
+/*
 :root {
   --max-width: 1100px;
   --border-radius: 12px;
@@ -79,3 +107,4 @@ a {
     color-scheme: dark;
   }
 }
+*/
