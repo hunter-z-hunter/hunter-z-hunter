@@ -3,17 +3,16 @@ import Layout from "../../components/Layout";
 
 export default function Hunt() {
   const [address, setAddress] = useState("");
-  const [objectPhoto, setObjectPhoto] = useState<File | null>(null);
+  const [photo, setPhoto] = useState<File | null>(null);
   const handleAddressChange = (event: ChangeEvent<HTMLInputElement>) => setAddress(event.target.value);
-  const handleObjectPhotoChange = (event: ChangeEvent<HTMLInputElement>) =>
-    setObjectPhoto(event.target.files?.[0] || null);
+  const handlePhotoChange = (event: ChangeEvent<HTMLInputElement>) => setPhoto(event.target.files?.[0] || null);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData();
     formData.append("address", address);
-    if (objectPhoto) {
-      formData.append("objectPhoto", objectPhoto);
+    if (photo) {
+      formData.append("photo", photo);
     }
 
     // Send the form data to the Next.js API for processing
@@ -22,7 +21,7 @@ export default function Hunt() {
       body: formData,
     });
     if (!response.ok) {
-      console.error(response.statusText);
+      console.error("Response: ", response.statusText);
       return;
     }
   };
@@ -30,7 +29,7 @@ export default function Hunt() {
   return (
     <Layout title="Submit Photo">
       <div className="pt-8">
-        <form onSubmit={handleSubmit} className="w-full max-w-lg mx-auto">
+        <form encType="multipart/form-data" onSubmit={handleSubmit} className="w-full max-w-lg mx-auto">
           <div className="mb-4">
             <label htmlFor="prize" className="block text-gray-700 font-bold mb-2">
               Address:
@@ -45,10 +44,17 @@ export default function Hunt() {
           </div>
 
           <div className="mb-4">
-            <label htmlFor="objectPhoto" className="block text-gray-700 font-bold mb-2">
+            <label htmlFor="photo" className="block text-gray-700 font-bold mb-2">
               Object Photo:
             </label>
-            <input type="file" id="objectPhoto" onChange={handleObjectPhotoChange} className="leading-loose" />
+            <input
+              type="file"
+              accept="image/*"
+              capture="environment"
+              id="photo"
+              onChange={handlePhotoChange}
+              className="leading-loose"
+            />
           </div>
 
           <div className="flex items-center justify-center">
