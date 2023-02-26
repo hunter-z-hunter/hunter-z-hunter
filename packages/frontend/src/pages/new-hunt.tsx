@@ -1,7 +1,7 @@
 import { useState, ChangeEvent, FormEvent } from "react";
 import Layout from "../components/Layout";
 
-export default function Hunt() {
+export default function CreateHunt() {
   const [name, setName] = useState("");
   const [endTime, setEndTime] = useState("");
   const [prize, setPrize] = useState("");
@@ -36,7 +36,7 @@ export default function Hunt() {
 
   return (
     <Layout title="Add New Hunt">
-      <div className="mb-4">
+      <div className="pt-8">
         <form onSubmit={handleSubmit} className="w-full max-w-lg mx-auto">
           <div className="mb-4">
             <label htmlFor="name" className="block text-gray-700 font-bold mb-2">
