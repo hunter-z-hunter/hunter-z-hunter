@@ -2,7 +2,8 @@
   "name": "hardhat-project",
   "scripts": {
     "test": "hardhat test",
-    "build": "hardhat compile --verbose"
+    "build": "hardhat compile --verbose",
+    "deploy": "hardhat run scripts/deploy.ts --network goerli"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-chai-matchers": "^1.0.2",

@@ -16,18 +16,18 @@ const config: HardhatUserConfig = {
   networks: {
     polygonMumbai: {
       url: `https://polygon-mumbai.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
-      accounts: [`${TESTNET_PRIVATE_KEY}`]
+      accounts: [`${TESTNET_PRIVATE_KEY}`],
     },
     goerli: {
       url: `https://eth-goerli.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
-      accounts: [`${TESTNET_PRIVATE_KEY}`]
+      accounts: [`${TESTNET_PRIVATE_KEY}`],
     },
   },
   etherscan: {
     apiKey: {
       polygonMumbai: `${POLYGON_SCAN_API_KEY}`,
       goerli: `${GOERLY_SCAN_API_KEY}`,
-    }
+    },
   },
 };
 

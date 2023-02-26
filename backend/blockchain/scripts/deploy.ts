@@ -1,12 +1,12 @@
 import { ethers } from "hardhat";
 
 async function main() {
-  const Contract = await ethers.getContractFactory("DummyContract");
-  const contract = await Contract.deploy();
+  const HzhContract = await ethers.getContractFactory("HunterZHunter");
+  const contract = await HzhContract.deploy();
 
   await contract.deployed();
 
-  console.log("Contract deployed to:", contract.address);
+  console.log("HunterZHunter Contract deployed to:", contract.address);
 }
 
 main().catch((error) => {

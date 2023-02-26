@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.8.0;
+pragma solidity 0.8.15;
 
 contract HunterZHunter {
     struct Hunt {
@@ -26,7 +26,7 @@ contract HunterZHunter {
         emit HuntAdded(huntId, name, prize, endTime, target);
     }
 
-    function verifyAndAwardPrize(address winner, bytes memory proof) public {
+    function verifyAndAwardPrize(string memory huntId, address winner, bytes memory proof) public {
         // call another contract to do the verification
         bool verified = verifyProof(winner, proof);
         require(verified, "Proof not verified");
