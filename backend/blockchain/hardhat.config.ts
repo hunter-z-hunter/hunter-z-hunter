@@ -9,7 +9,7 @@ dotenv.config();
 const ALCHEMY_API_KEY = process.env.ALCHEMY_API_KEY;
 const TESTNET_PRIVATE_KEY = process.env.TESTNET_PRIVATE_KEY;
 const POLYGON_SCAN_API_KEY = process.env.POLYGON_SCAN_API_KEY;
-const GOERLY_SCAN_API_KEY = process.env.GOERLY_SCAN_API_KEY;
+const ETHERSCAN_API_KEY = process.env.ETHERSCAN_API_KEY;
 const SCROLL_TESTNET_URL = process.env.SCROLL_TESTNET_URL;
 
 const config: HardhatUserConfig = {
@@ -31,8 +31,19 @@ const config: HardhatUserConfig = {
   etherscan: {
     apiKey: {
       polygonMumbai: `${POLYGON_SCAN_API_KEY}`,
-      goerli: `${GOERLY_SCAN_API_KEY}`,
+      goerli: `${ETHERSCAN_API_KEY}`,
+      scrollTestnet: `${ETHERSCAN_API_KEY}`,
     },
+    customChains: [
+      {
+        network: "scrollTestnet",
+        chainId: 534353,
+        urls: {
+          apiURL: "https://blockscout.scroll.io/api",
+          browserURL: "https://blockscout.scroll.io"
+        }
+      }
+    ]
   },
 };
 
