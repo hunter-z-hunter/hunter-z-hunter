@@ -10,6 +10,7 @@ const ALCHEMY_API_KEY = process.env.ALCHEMY_API_KEY;
 const TESTNET_PRIVATE_KEY = process.env.TESTNET_PRIVATE_KEY;
 const POLYGON_SCAN_API_KEY = process.env.POLYGON_SCAN_API_KEY;
 const GOERLY_SCAN_API_KEY = process.env.GOERLY_SCAN_API_KEY;
+const SCROLL_TESTNET_URL = process.env.SCROLL_TESTNET_URL;
 
 const config: HardhatUserConfig = {
   solidity: "0.8.15",
@@ -20,6 +21,10 @@ const config: HardhatUserConfig = {
     },
     goerli: {
       url: `https://eth-goerli.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
+      accounts: [`${TESTNET_PRIVATE_KEY}`],
+    },
+    scrollTestnet: {
+      url: `${SCROLL_TESTNET_URL}`,
       accounts: [`${TESTNET_PRIVATE_KEY}`],
     },
   },
