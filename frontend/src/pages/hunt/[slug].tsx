@@ -31,7 +31,7 @@ export default function Hunt() {
   return (
     <Layout title="Submit Photo">
       <div className="pt-8">
-        <form encType="multipart/form-data" onSubmit={handleSubmit} className="w-full max-w-lg mx-auto">
+        <form onSubmit={handleSubmit} className="w-full max-w-lg mx-auto">
           <div className="mb-4">
             <label htmlFor="prize" className="block text-gray-700 font-bold mb-2">
               Address:
