@@ -23,8 +23,8 @@ const Layout = ({ children, title = "This is the default title" }: Props) => (
           <Link href="/hunts" className="text-gray-100 hover:text-blue-700 mx-4">
             Hunts
           </Link>
-          <Link href="/new-hunt" className="text-gray-100 hover:text-blue-700 mx-4">
-            New Hunt
+          <Link href="/create-hunt" className="text-gray-100 hover:text-blue-700 mx-4">
+            Create Hunt
           </Link>
           <Link href="/hunt/123" className="text-gray-100 hover:text-blue-700 mx-4">
             Submit Photo

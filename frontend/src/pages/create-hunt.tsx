@@ -5,13 +5,12 @@ export default function CreateHunt() {
   const [name, setName] = useState("");
   const [endTime, setEndTime] = useState("");
   const [prize, setPrize] = useState("");
-  const [objectPhoto, setObjectPhoto] = useState<File | null>(null);
+  const [photo, setPhoto] = useState<File | null>(null);
 
   const handleNameChange = (event: ChangeEvent<HTMLInputElement>) => setName(event.target.value);
   const handleEndTimeChange = (event: ChangeEvent<HTMLInputElement>) => setEndTime(event.target.value);
   const handlePrizeChange = (event: ChangeEvent<HTMLInputElement>) => setPrize(event.target.value);
-  const handleObjectPhotoChange = (event: ChangeEvent<HTMLInputElement>) =>
-    setObjectPhoto(event.target.files?.[0] || null);
+  const handlePhotoChange = (event: ChangeEvent<HTMLInputElement>) => setPhoto(event.target.files?.[0] || null);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -19,12 +18,12 @@ export default function CreateHunt() {
     formData.append("name", name);
     formData.append("endTime", endTime);
     formData.append("prize", prize);
-    if (objectPhoto) {
-      formData.append("objectPhoto", objectPhoto);
+    if (photo) {
+      formData.append("photo", photo);
     }
 
     // Send the form data to the Next.js API for processing
-    const response = await fetch("/api/scavenger-hunt", {
+    const response = await fetch("/api/create-hunt", {
       method: "POST",
       body: formData,
     });
@@ -35,7 +34,7 @@ export default function CreateHunt() {
   };
 
   return (
-    <Layout title="Add New Hunt">
+    <Layout title="Create Hunt">
       <div className="pt-8">
         <form onSubmit={handleSubmit} className="w-full max-w-lg mx-auto">
           <div className="mb-4">
@@ -78,10 +77,10 @@ export default function CreateHunt() {
           </div>
 
           <div className="mb-4">
-            <label htmlFor="objectPhoto" className="block text-gray-700 font-bold mb-2">
+            <label htmlFor="photo" className="block text-gray-700 font-bold mb-2">
               Object Photo:
             </label>
-            <input type="file" id="objectPhoto" onChange={handleObjectPhotoChange} className="leading-loose" />
+            <input type="file" id="photo" onChange={handlePhotoChange} className="leading-loose" />
           </div>
 
           <div className="flex items-center justify-center">
