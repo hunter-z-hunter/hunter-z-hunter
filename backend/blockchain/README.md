@@ -10,6 +10,6 @@ yarn test
 
 To deploy:
 ```shell
-npx hardhat run scripts/deploy.ts --network scrollTestnet
-npx hardhat verify --network scrollTestnet <contract address>
+npx hardhat run scripts/deploy.ts --network polygonMumbai
+npx hardhat verify --network polygonMumbai --constructor-args scripts/arguments.js <contract address>
 ```

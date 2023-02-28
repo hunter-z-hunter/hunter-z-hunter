@@ -15,6 +15,7 @@ contract HunterZHunter {
     address payable public owner;
     address public verifier;
     mapping (string => Hunt) hunts;
+    mapping (string => bool) huntsSaved;
 
     event HuntAdded(string huntId, string name, uint prize, uint endTime, bytes32 target);
     event PrizeWon(string huntId, address winner, uint prize);
@@ -24,14 +25,19 @@ contract HunterZHunter {
         verifier = _verifier;
     }
 
-    function addHunt(string memory huntId, string memory name, uint prize, uint endTime, bytes32 target) public {
+    function addHunt(string memory huntId, string memory name, uint endTime, bytes32 target) public payable {
+        require(!huntsSaved[huntId], "hunt with provided id already exists");
+        require(msg.value > 0, "prize cannot be zero");
+
         Hunt storage newHunt = hunts[huntId];
         newHunt.huntId = huntId;
         newHunt.name = name;
-        newHunt.prize = prize;
+        newHunt.prize = msg.value;
         newHunt.endTime = endTime;
         newHunt.target = target;
-        emit HuntAdded(huntId, name, prize, endTime, target);
+
+        huntsSaved[huntId] = true;
+        emit HuntAdded(huntId, name, msg.value, endTime, target);
     }
 
     function verifyAndAwardPrize(string memory huntId, address winner, bytes memory proof) public {
@@ -42,8 +48,7 @@ contract HunterZHunter {
         // transfer prize ETH to the winner
         uint prize = hunts[huntId].prize;
         hunts[huntId].prize = 0;
-        (bool success, ) = winner.call{value: prize}("");
-        require(success, "Transfer failed");
+        payable(winner).transfer(prize);
 
         emit PrizeWon(huntId, winner, prize);
     }
