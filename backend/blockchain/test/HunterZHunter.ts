@@ -5,21 +5,23 @@ import {HunterZHunter} from "../typechain-types";
 describe("HunterZHunter", async () => {
 
     describe("Deployment", async () => {
-        it("Should set the right owner", async function () {
+        it("Should set the right constructor params", async function () {
             // given
             const [owner] = await ethers.getSigners();
+            const verifier = ethers.Wallet.createRandom().address;
             const contract = await ethers.getContractFactory("HunterZHunter");
-            const hunterZHunterContract = await contract.deploy();
+            const hunterZHunterContract = await contract.deploy(verifier);
 
             // then
             expect(await hunterZHunterContract.owner()).to.equal(owner.address);
+            expect(await hunterZHunterContract.verifier()).to.equal(verifier);
         });
     });
     describe("Hunt creation", async () => {
         it("Should add a new hunt", async () => {
             // given
             const contract = await ethers.getContractFactory("HunterZHunter");
-            const hunterZHunterContract = await contract.deploy() as HunterZHunter;
+            const hunterZHunterContract = await contract.deploy(ethers.Wallet.createRandom().address) as HunterZHunter;
 
             const huntId = "game id";
             const name = "game name";
