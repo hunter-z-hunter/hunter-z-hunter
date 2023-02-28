@@ -3,6 +3,7 @@
 pragma solidity 0.8.15;
 
 contract HunterZHunter {
+
     struct Hunt {
         string huntId;
         string name;
@@ -11,10 +12,15 @@ contract HunterZHunter {
         bytes32 target;
     }
 
+    address payable public owner;
     mapping (string => Hunt) hunts;
 
     event HuntAdded(string huntId, string name, uint prize, uint endTime, bytes32 target);
     event PrizeWon(string huntId, address winner, uint prize);
+
+    constructor() {
+        owner = payable(msg.sender);
+    }
 
     function addHunt(string memory huntId, string memory name, uint prize, uint endTime, bytes32 target) public {
         Hunt storage newHunt = hunts[huntId];
