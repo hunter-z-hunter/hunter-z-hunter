@@ -42,6 +42,9 @@ contract HunterZHunter {
 
     function verifyProof(address winner, bytes memory proof) private returns (bool) {
         // call another contract to do the verification
+        Verifier verifier = new Verifier(0x000000); // insert address of Verifier contract
+        verifier.verify(winner, proof);
         // implementation omitted
+        return verifier ? true : false;
     }
 }
