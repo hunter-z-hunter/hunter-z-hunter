@@ -9,7 +9,7 @@ contract HunterZHunter {
         string name;
         uint prize;
         uint endTime;
-        bytes32 target;
+        string target;
     }
 
     address payable public owner;
@@ -17,7 +17,7 @@ contract HunterZHunter {
     mapping (string => Hunt) hunts;
     mapping (string => bool) huntsSaved;
 
-    event HuntAdded(string huntId, string name, uint prize, uint endTime, bytes32 target);
+    event HuntAdded(string huntId, string name, uint prize, uint endTime, string target);
     event PrizeWon(string huntId, address winner, uint prize);
 
     constructor(address _verifier) {
@@ -25,7 +25,7 @@ contract HunterZHunter {
         verifier = _verifier;
     }
 
-    function addHunt(string memory huntId, string memory name, uint endTime, bytes32 target) public payable {
+    function addHunt(string memory huntId, string memory name, uint endTime, string memory target) public payable {
         require(!huntsSaved[huntId], "hunt with provided id already exists");
         require(msg.value > 0, "prize cannot be zero");
 
