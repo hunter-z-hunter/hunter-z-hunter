@@ -1,0 +1,7 @@
+sources:
+  - name: hunter-z-hunter
+    handler:
+      graphql:
+        endpoint: https://api.thegraph.com/subgraphs/name/richwarner/hunter-z-hunter
+documents:
+  - ./src/subgraph/hunts.graphql

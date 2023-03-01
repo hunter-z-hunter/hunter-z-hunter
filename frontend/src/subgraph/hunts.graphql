@@ -1,0 +1,13 @@
+query hunts {
+  huntAddeds(orderBy: endTime, orderDirection: asc) {
+    transactionHash
+    target
+    prize
+    id
+    endTime
+    name
+    huntId
+    blockTimestamp
+    blockNumber
+  }
+}
