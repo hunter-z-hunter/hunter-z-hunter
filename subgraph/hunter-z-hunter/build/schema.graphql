@@ -1,0 +1,21 @@
+type HuntAdded @entity(immutable: true) {
+  id: Bytes!
+  huntId: String! # string
+  name: String! # string
+  prize: BigInt! # uint256
+  endTime: BigInt! # uint256
+  target: String! # string
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type PrizeWon @entity(immutable: true) {
+  id: Bytes!
+  huntId: String! # string
+  winner: Bytes! # address
+  prize: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
