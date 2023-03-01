@@ -10,14 +10,16 @@ contract HunterZHunter {
         uint prize;
         uint endTime;
         string target;
+        string description;
     }
 
     address payable public owner;
     address public verifier;
     mapping (string => Hunt) hunts;
     mapping (string => bool) huntsSaved;
+    string IPFS_HASH = ;
 
-    event HuntAdded(string huntId, string name, uint prize, uint endTime, string target);
+    event HuntAdded(string huntId, string name, uint prize, uint endTime, string target, string description);
     event PrizeWon(string huntId, address winner, uint prize);
 
     constructor(address _verifier) {
@@ -25,7 +27,7 @@ contract HunterZHunter {
         verifier = _verifier;
     }
 
-    function addHunt(string memory huntId, string memory name, uint endTime, string memory target) public payable {
+    function addHunt(string memory huntId, string memory name, uint endTime, string memory target, string memory description) public payable {
         require(!huntsSaved[huntId], "hunt with provided id already exists");
         require(msg.value > 0, "prize cannot be zero");
 
@@ -35,9 +37,10 @@ contract HunterZHunter {
         newHunt.prize = msg.value;
         newHunt.endTime = endTime;
         newHunt.target = target;
+        newHunt.description = description;
 
         huntsSaved[huntId] = true;
-        emit HuntAdded(huntId, name, msg.value, endTime, target);
+        emit HuntAdded(huntId, name, msg.value, endTime, target, description);
     }
 
     function verifyAndAwardPrize(string memory huntId, address winner, bytes memory proof) public {
