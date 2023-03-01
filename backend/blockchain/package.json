@@ -2,7 +2,7 @@
   "name": "hardhat-project",
   "scripts": {
     "test": "hardhat test",
-    "build": "hardhat compile --verbose",
+    "build": "hardhat compile --verbose && (rm -R ../../frontend/src/typechain-types || true) && cp -R typechain-types ../../frontend/src",
     "deploy": "hardhat run scripts/deploy.ts --network polygonMumbai"
   },
   "devDependencies": {
