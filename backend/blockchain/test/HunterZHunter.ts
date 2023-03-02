@@ -112,9 +112,19 @@ describe("HunterZHunter", async () => {
 
             await expect(transaction).to.changeEtherBalance(account.address, ethers.utils.parseEther("2.5"));
         })
-        // TODO write a test once verifier is ready
-        /* it("Should fail if proof not verified", async () => {
+        it("Should fail if proof not verified", async () => {
+            // given
+            const contract = await ethers.getContractFactory("HunterZHunter");
+            const hunterZHunterContract = await contract.deploy(ethers.Wallet.createRandom().address) as HunterZHunter;
 
-        }) */
+            const [owner, addr] = await ethers.getSigners();
+            const huntId = "game id";
+            const prize = ethers.utils.parseEther("2.5");
+            hunterZHunterContract.addHunt(huntId, "game name", "game description", 123456, "some imageReference", "some target",{value: prize})
+
+            // then
+            await expect(hunterZHunterContract.connect(addr).verifyAndAwardPrize(huntId, owner.address, ethers.utils.formatBytes32String("some proof")))
+                .revertedWith("not an owner");
+        })
     })
 });

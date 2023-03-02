@@ -30,7 +30,7 @@ import type {
 
 export interface HunterZHunterInterface extends utils.Interface {
   functions: {
-    "addHunt(string,string,uint256,string)": FunctionFragment;
+    "addHunt(string,string,string,uint256,string,string)": FunctionFragment;
     "owner()": FunctionFragment;
     "verifier()": FunctionFragment;
     "verifyAndAwardPrize(string,address,bytes)": FunctionFragment;
@@ -49,7 +49,9 @@ export interface HunterZHunterInterface extends utils.Interface {
     values: [
       PromiseOrValue<string>,
       PromiseOrValue<string>,
+      PromiseOrValue<string>,
       PromiseOrValue<BigNumberish>,
+      PromiseOrValue<string>,
       PromiseOrValue<string>
     ]
   ): string;
@@ -73,7 +75,7 @@ export interface HunterZHunterInterface extends utils.Interface {
   ): Result;
 
   events: {
-    "HuntAdded(string,string,uint256,uint256,string)": EventFragment;
+    "HuntAdded(string,string,string,uint256,uint256,string,string)": EventFragment;
     "PrizeWon(string,address,uint256)": EventFragment;
   };
 
@@ -84,12 +86,14 @@ export interface HunterZHunterInterface extends utils.Interface {
 export interface HuntAddedEventObject {
   huntId: string;
   name: string;
+  description: string;
   prize: BigNumber;
   endTime: BigNumber;
+  imageReference: string;
   target: string;
 }
 export type HuntAddedEvent = TypedEvent<
-  [string, string, BigNumber, BigNumber, string],
+  [string, string, string, BigNumber, BigNumber, string, string],
   HuntAddedEventObject
 >;
 
@@ -137,7 +141,9 @@ export interface HunterZHunter extends BaseContract {
     addHunt(
       huntId: PromiseOrValue<string>,
       name: PromiseOrValue<string>,
+      description: PromiseOrValue<string>,
       endTime: PromiseOrValue<BigNumberish>,
+      imageReference: PromiseOrValue<string>,
       target: PromiseOrValue<string>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
@@ -157,7 +163,9 @@ export interface HunterZHunter extends BaseContract {
   addHunt(
     huntId: PromiseOrValue<string>,
     name: PromiseOrValue<string>,
+    description: PromiseOrValue<string>,
     endTime: PromiseOrValue<BigNumberish>,
+    imageReference: PromiseOrValue<string>,
     target: PromiseOrValue<string>,
     overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
@@ -177,7 +185,9 @@ export interface HunterZHunter extends BaseContract {
     addHunt(
       huntId: PromiseOrValue<string>,
       name: PromiseOrValue<string>,
+      description: PromiseOrValue<string>,
       endTime: PromiseOrValue<BigNumberish>,
+      imageReference: PromiseOrValue<string>,
       target: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
@@ -195,18 +205,22 @@ export interface HunterZHunter extends BaseContract {
   };
 
   filters: {
-    "HuntAdded(string,string,uint256,uint256,string)"(
+    "HuntAdded(string,string,string,uint256,uint256,string,string)"(
       huntId?: null,
       name?: null,
+      description?: null,
       prize?: null,
       endTime?: null,
+      imageReference?: null,
       target?: null
     ): HuntAddedEventFilter;
     HuntAdded(
       huntId?: null,
       name?: null,
+      description?: null,
       prize?: null,
       endTime?: null,
+      imageReference?: null,
       target?: null
     ): HuntAddedEventFilter;
 
@@ -222,7 +236,9 @@ export interface HunterZHunter extends BaseContract {
     addHunt(
       huntId: PromiseOrValue<string>,
       name: PromiseOrValue<string>,
+      description: PromiseOrValue<string>,
       endTime: PromiseOrValue<BigNumberish>,
+      imageReference: PromiseOrValue<string>,
       target: PromiseOrValue<string>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
@@ -243,7 +259,9 @@ export interface HunterZHunter extends BaseContract {
     addHunt(
       huntId: PromiseOrValue<string>,
       name: PromiseOrValue<string>,
+      description: PromiseOrValue<string>,
       endTime: PromiseOrValue<BigNumberish>,
+      imageReference: PromiseOrValue<string>,
       target: PromiseOrValue<string>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
