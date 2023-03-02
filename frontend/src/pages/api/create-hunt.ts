@@ -64,7 +64,7 @@ export default async function handler(req: any, res: any) {
     const hzhContract = new ethers.Contract(HZH_ADDRESS, hzhAbi, wallet);
     await hzhContract.addHunt(huntId, name, endTime, target, { value: prize }).then((t: any) => t.wait());
 
-    // Send the grayscale values as the response
+    // Success
     res.status(200).json({ result: "success" });
   } catch (error: any) {
     // Send an error response if there is an error

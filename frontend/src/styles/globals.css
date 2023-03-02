@@ -1,32 +1,59 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url("https://fonts.googleapis.com/css2?family=Bangers&display=swap");
+@import url("https://fonts.cdnfonts.com/css/quick-zap");
 
-html {
-  box-sizing: border-box;
-}
-*,
-*:before,
-*:after {
-  box-sizing: inherit;
-}
-
-/* Chrome, Safari, Edge, Opera */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-/* Firefox */
-input[type="number"] {
-  -moz-appearance: textfield;
+:root {
+  --background-start-rgb: 99, 124, 236;
+  --background-end-rgb: 59, 19, 71;
+  --branddarkblue: #2a345f;
+  --brandblue: #495aa1;
+  --brandpurple: #7f53ac;
+  --brandgreen: #0b9e46;
 }
 
 @layer base {
+  html {
+    box-sizing: border-box;
+    /* height: 100%; */
+  }
+  *,
+  *:before,
+  *:after {
+    box-sizing: inherit;
+  }
+
   body {
     @apply bg-neutral-100;
+    /* add bg gradient */
+    background: linear-gradient(to bottom, transparent, rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb))
+      no-repeat center center fixed;
+    /* height: 100%; */
+    /* background-image: url("/bg-forest.png"); */
+    /* opacity: 0.92; */
+    /* background: url("/bg-forest.png") no-repeat center center fixed; */
+    background-size: cover;
+    font-family: "Bangers", sans-serif;
+    @apply tracking-tight;
+    /* @apply text-gray-100; */
   }
+}
+
+@layer components {
+  .container-centered {
+    @apply flex flex-col items-center justify-center mt-6;
+    max-width: 1200px;
+  }
+  .btn {
+    @apply text-white font-bold py-2 px-4 rounded bg-brandblue-500;
+  }
+  .btn:hover {
+    @apply bg-brandpurple-500;
+  }
+}
+
+@layer utilities {
 }
 
 /*
