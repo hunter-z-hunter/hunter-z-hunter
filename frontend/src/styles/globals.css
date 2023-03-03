@@ -43,7 +43,7 @@
 @layer components {
   .container-centered {
     @apply flex flex-col items-center justify-center mt-6;
-    max-width: 1200px;
+    /* max-width: 1200px; */
   }
   .btn {
     @apply text-white font-bold py-2 px-4 rounded bg-brandblue-500;

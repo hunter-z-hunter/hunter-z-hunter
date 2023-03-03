@@ -52,21 +52,25 @@ export default function Hunt() {
       <div className="container-centered">
         <h1 className="text-5xl font-extrabold font-bangers text-gray-50 mb-6 tracking-tighter">SUBMIT PHOTO</h1>
         {submitted ? (
-          <div className="pt-8 bg-white rounded-lg shadow-lg p-6 max-w-lg mx-auto flex flex-col items-center">
+          <div className="pt-8 bg-gray-50 rounded-lg shadow-lg p-6 max-w-lg mx-auto flex flex-col items-center">
             {matched ? (
               <>
                 <FaCheck className="text-6xl text-green-500 mb-4" />
                 <p className="text-xl font-semibold text-gray-800">It's a match!</p>
+                <p>Your prize will now be disbursed</p>
               </>
             ) : (
               <>
                 <FaTimes className="text-6xl text-red-500 mb-4" />
-                <p className="text-xl font-semibold text-gray-800">No match</p>
+                <p className="text-xl font-semibold text-gray-800 mb-4">No match</p>
+                <a href={`/hunt/${slug}`} className="btn">
+                  Try Again
+                </a>
               </>
             )}
           </div>
         ) : (
-          <div className="pt-8 bg-white rounded-lg shadow-lg p-6 max-w-lg mx-auto">
+          <div className="pt-8  bg-gray-50 rounded-lg shadow-lg p-6 max-w-lg mx-auto">
             <form onSubmit={handleSubmit} className="max-w-md mx-auto">
               <div className="mb-4">
                 <label htmlFor="prize" className="block text-gray-700 font-bold mb-2">

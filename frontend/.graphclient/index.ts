@@ -752,8 +752,8 @@ const merger = new(BareMerger as any)({
   };
 }
 
-export function createBuiltMeshHTTPHandler(): MeshHTTPHandler<MeshContext> {
-  return createMeshHTTPHandler<MeshContext>({
+export function createBuiltMeshHTTPHandler<TServerContext = {}>(): MeshHTTPHandler<TServerContext> {
+  return createMeshHTTPHandler<TServerContext>({
     baseDir,
     getBuiltMesh: getBuiltGraphClient,
     rawServeConfig: undefined,
@@ -791,7 +791,7 @@ export type huntsQuery = { huntAddeds: Array<Pick<HuntAdded, 'transactionHash' |
 
 export const huntsDocument = gql`
     query hunts {
-  huntAddeds(orderBy: endTime, orderDirection: asc) {
+  huntAddeds(orderBy: endTime, orderDirection: desc) {
     transactionHash
     target
     prize

@@ -1,5 +1,5 @@
 query hunts {
-  huntAddeds(orderBy: endTime, orderDirection: asc) {
+  huntAddeds(orderBy: endTime, orderDirection: desc) {
     transactionHash
     target
     prize

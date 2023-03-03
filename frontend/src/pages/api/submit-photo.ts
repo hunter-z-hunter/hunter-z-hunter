@@ -39,7 +39,25 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const values = await convertImage(file.buffer);
 
     // Grab target data from subgraph
-    // await execute(huntsDocument, {id: });
+    // const result = await execute(huntsDocument, { huntId: modifiedReq.huntId });
+
+    const query = `query hunt($huntId: String!) {
+      huntAddeds(where: {huntId: $huntId,}) {
+        transactionHash
+        target
+        prize
+        id
+        endTime
+        name
+        huntId
+        blockTimestamp
+        blockNumber
+      }
+    }`;
+    const huntData = await execute(query, { huntId: modifiedReq.body.huntId });
+    const huntTarget = huntData.data.huntAddeds[0].target;
+
+    console.log("Subgraph result huntTarget: ", huntTarget);
 
     // Create response json
     // {
@@ -48,39 +66,39 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     //   target_input_data: [],
     // };
 
-    // Execute RPC Forward request
-    const rpcForwardParams = {
-      jsonrpc: "2.0",
-      method: "forward",
-      params: [
-        {
-          input_data: [values],
-          input_shapes: [[1, 28, 28]],
-          output_data: [
-            [
-              0.01953125, 0.01171875, 0.109375, 0.16015625, 0.15234375, 0.01953125, 0.0390625, 0.1640625, -0.08203125,
-              -0.04296875,
-            ],
-          ],
-        },
-      ],
-      id: 1,
-    };
-    // console.log("rpcForwardParams: ", JSON.stringify(rpcForwardParams));
-    const forwardOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(rpcForwardParams),
-    };
-    let forwardOutput = null;
-    try {
-      const forwardResponse = await fetch(RPC_SERVER, forwardOptions);
-      const forwardData = await forwardResponse.json();
-      forwardOutput = forwardData.result.output_data[0];
-    } catch (error) {
-      console.error("RPC error: ", error);
-    }
-    console.log("RPC Forward response :", forwardOutput);
+    // // Execute RPC Forward request
+    // const rpcForwardParams = {
+    //   jsonrpc: "2.0",
+    //   method: "forward",
+    //   params: [
+    //     {
+    //       input_data: [values],
+    //       input_shapes: [[1, 28, 28]],
+    //       output_data: [
+    //         [
+    //           0.01953125, 0.01171875, 0.109375, 0.16015625, 0.15234375, 0.01953125, 0.0390625, 0.1640625, -0.08203125,
+    //           -0.04296875,
+    //         ],
+    //       ],
+    //     },
+    //   ],
+    //   id: 1,
+    // };
+    // // console.log("rpcForwardParams: ", JSON.stringify(rpcForwardParams));
+    // const forwardOptions = {
+    //   method: "POST",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify(rpcForwardParams),
+    // };
+    // let forwardOutput = null;
+    // try {
+    //   const forwardResponse = await fetch(RPC_SERVER, forwardOptions);
+    //   const forwardData = await forwardResponse.json();
+    //   forwardOutput = forwardData.result.output_data[0];
+    // } catch (error) {
+    //   console.error("RPC error: ", error);
+    // }
+    // console.log("RPC Forward response :", forwardOutput);
 
     // Execute RPC Mock request
     const rpcMockParams = {
@@ -97,7 +115,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             ],
           ],
         },
-        { target_output_data: [forwardOutput] },
+        { target_output_data: JSON.parse("[[" + huntTarget + "]]") },
       ],
       id: 2,
     };
