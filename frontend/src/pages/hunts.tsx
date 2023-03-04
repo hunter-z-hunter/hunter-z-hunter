@@ -4,9 +4,26 @@ import { huntsDocument, huntsQuery, execute } from "../../.graphclient";
 import { ethers } from "ethers";
 import { useMemo } from "react";
 
-export default function Home() {
+export default function Hunts() {
   const [data, setData] = useState<huntsQuery>();
   const [timeLeft, setTimeLeft] = useState<number>(0);
+
+  const hints = [
+    "I'm green and full of chocololate",
+    "Find something that is soft and furry",
+    "Look for an object that can be found in nature and is green",
+    "This is an item that has a picture or word printed on it",
+    "This object is square shape and blue",
+    "This object is transparent",
+    "This object makes a sound when you shake it",
+    "Find an item that is used for writing / drawing",
+    "look for something made of metal and shiny",
+    "this item is a triangle shape and a bright color",
+    "This object makes a sound when you shake it",
+    "look for something made of metal and shiny",
+    "This is an item that has a picture or word printed on it",
+    "Look for an object that can be found in nature and is green",
+  ];
 
   useEffect(() => {
     execute(huntsDocument, {}).then((result) => {
@@ -47,8 +64,8 @@ export default function Home() {
       <div className="container-centered">
         <h1 className="text-5xl font-extrabold font-bangers text-gray-50 mb-6 tracking-tighter">HUNTS</h1>
         {/* <p className="text-lg mb-4">Come find me sucka!</p> */}
-        {data?.huntAddeds.map((hunt) => (
-          <div key={hunt.huntId} className="bg-white rounded-lg shadow-lg p-6 mb-4 mx-4 max-w-lg">
+        {data?.huntAddeds.map((hunt, index) => (
+          <div key={hunt.huntId} className=" bg-gray-50  rounded-lg shadow-lg p-6 mb-4 mx-4 w-[340px]">
             <div className="flex items-start mb-4">
               <div className="bg-brandblue-500 text-white rounded-full p-3">
                 <svg
@@ -145,12 +162,9 @@ export default function Home() {
               </div>
               <div className="ml-3">
                 <h2 className="font-bangers text-2xl font-semibold text-gray-900 tracking-tighter">{hunt.name}</h2>
-                <p className="text-gray-700 text-sm mb-4">
-                  Lorem ipsum dolor, sit amet cons ectetur adipis icing elit. Praesen tium, quibusdam facere quo laborum
-                  maiores sequi nam tenetur laud.
-                </p>
-                <p>{ethers.utils.formatEther(hunt.prize)} ETH</p>
-                <p className="mb-4">{formatTime((hunt as any).timeLeft)} left</p>
+                <p className="text-gray-700 text-sm mb-4">{hints[index]}</p>
+                <p>Prize: {ethers.utils.formatEther(hunt.prize)} ETH</p>
+                <p className="mb-4 font-semibold">{formatTime((hunt as any).timeLeft)} left</p>
                 <a href={`/hunt/${hunt.huntId}`} className="btn">
                   Submit Photo
                 </a>

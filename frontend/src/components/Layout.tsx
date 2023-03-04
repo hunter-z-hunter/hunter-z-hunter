@@ -17,13 +17,13 @@ const Layout = ({ children, title = "This is the default title" }: Props) => (
     <header className="bg-branddarkblue-500 py-4">
       <div className="container mx-auto px-4">
         <nav className="font-bangers flex justify-center tracking-tight">
-          <Link href="/" className="text-gray-100 hover:text-brandpurple-500 mx-4">
+          <Link href="/" className="text-gray-50 hover:text-brandpurple-500 mx-4">
             Home
           </Link>
-          <Link href="/hunts" className="text-gray-100 hover:text-brandpurple-500 mx-4">
+          <Link href="/hunts" className="text-gray-50 hover:text-brandpurple-500 mx-4">
             Hunts
           </Link>
-          <Link href="/create-hunt" className="text-gray-100 hover:text-brandpurple-500 mx-4">
+          <Link href="/create-hunt" className="text-gray-50 hover:text-brandpurple-500 mx-4">
             Create Hunt
           </Link>
           {/* <Link href="/hunt/123" className="text-gray-100 hover:text-blue-700 mx-4">

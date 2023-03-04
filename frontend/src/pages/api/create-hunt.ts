@@ -10,6 +10,8 @@ import { HZH_ADDRESS } from "../../../../config.js";
 
 dotenv.config();
 
+const RPC_SERVER: string = process.env.RPC_SERVER!;
+
 // First we need to disable the default body parser
 export const config = {
   api: {
@@ -43,26 +45,61 @@ export default async function handler(req: any, res: any) {
     const imageArray = await convertImage(file.buffer);
 
     // Encrypt the image array
-    const imageArrayString = JSON.stringify(imageArray);
-    const key = crypto.randomBytes(32);
-    const iv = crypto.randomBytes(16);
-    const cipher = crypto.createCipheriv("aes-256-cbc", Buffer.from(process.env.ENCRYPTION_KEY!), iv);
-    let encryptedImageString = cipher.update(imageArrayString, "utf8", "hex");
-    encryptedImageString += cipher.final("hex");
+    // const imageArrayString = JSON.stringify(imageArray);
+    // const key = crypto.randomBytes(32);
+    // const iv = crypto.randomBytes(16);
+    // const cipher = crypto.createCipheriv("aes-256-cbc", Buffer.from(process.env.ENCRYPTION_KEY!), iv);
+    // let encryptedImageString = cipher.update(imageArrayString, "utf8", "hex");
+    // encryptedImageString += cipher.final("hex");
+
+    // Execute RPC Forward request
+    const rpcForwardParams = {
+      jsonrpc: "2.0",
+      method: "forward",
+      params: [
+        {
+          input_data: [imageArray],
+          input_shapes: [[1, 28, 28]],
+          output_data: [
+            [
+              0.01953125, 0.01171875, 0.109375, 0.16015625, 0.15234375, 0.01953125, 0.0390625, 0.1640625, -0.08203125,
+              -0.04296875,
+            ],
+          ],
+        },
+      ],
+      id: 1,
+    };
+    // console.log("rpcForwardParams: ", JSON.stringify(rpcForwardParams));
+    const forwardOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(rpcForwardParams),
+    };
+    let forwardOutput = null;
+    try {
+      const forwardResponse = await fetch(RPC_SERVER, forwardOptions);
+      const forwardData = await forwardResponse.json();
+      forwardOutput = forwardData.result.output_data[0];
+    } catch (error) {
+      console.error("RPC error: ", error);
+    }
+    console.log("RPC Forward response :", forwardOutput);
 
     // Format contract parameters
     const huntId: string = slugify(req.body.name);
     const name: string = req.body.name;
     const prize: any = ethers.utils.parseEther(req.body.prize);
     const endTime: number = Date.parse(req.body.endTime) / 1000;
-    const target = encryptedImageString.substring(0, 64); // substring temporarily to avoid gas fees
+    const target = forwardOutput; //encryptedImageString.substring(0, 64); // substring temporarily to avoid gas fees
+    console.log("target: ", target);
 
     // Call contract to add hunt
     const hzhAbi = require("../../../abis/HunterZHunter.json").abi;
     const provider = new ethers.providers.JsonRpcProvider(process.env.ETH_PROVIDER_URL);
     const wallet = new ethers.Wallet(process.env.PRIVATE_KEY!, provider);
     const hzhContract = new ethers.Contract(HZH_ADDRESS, hzhAbi, wallet);
-    await hzhContract.addHunt(huntId, name, endTime, target, { value: prize }).then((t: any) => t.wait());
+    await hzhContract.addHunt(huntId, name, endTime, target.toString(), { value: prize }).then((t: any) => t.wait());
 
     // Success
     res.status(200).json({ result: "success" });

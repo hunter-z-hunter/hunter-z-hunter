@@ -4,6 +4,7 @@ import { FaCheck } from "react-icons/fa";
 
 export default function CreateHunt() {
   const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
   const [endTime, setEndTime] = useState("");
   const [prize, setPrize] = useState("");
   const [photo, setPhoto] = useState<File | null>(null);
@@ -11,6 +12,7 @@ export default function CreateHunt() {
   const [submitted, setSubmitted] = useState(false);
 
   const handleNameChange = (event: ChangeEvent<HTMLInputElement>) => setName(event.target.value);
+  const handleDescriptionChange = (event: ChangeEvent<HTMLInputElement>) => setDescription(event.target.value);
   const handleEndTimeChange = (event: ChangeEvent<HTMLInputElement>) => setEndTime(event.target.value);
   const handlePrizeChange = (event: ChangeEvent<HTMLInputElement>) => setPrize(event.target.value);
   const handlePhotoChange = (event: ChangeEvent<HTMLInputElement>) => setPhoto(event.target.files?.[0] || null);
@@ -49,7 +51,7 @@ export default function CreateHunt() {
             <p className="text-xl font-semibold text-gray-800">Hunt submitted successfully!</p>
           </div>
         ) : (
-          <div className="pt-8 bg-white rounded-lg shadow-lg p-6 max-w-lg mx-auto">
+          <div className="pt-8 rounded-lg shadow-lg p-6 max-w-lg mx-auto bg-gray-50">
             <form onSubmit={handleSubmit} className="w-full max-w-lg mx-auto">
               <div className="mb-4">
                 <label htmlFor="name" className="block text-gray-700 font-bold mb-2">
@@ -60,6 +62,19 @@ export default function CreateHunt() {
                   id="name"
                   value={name}
                   onChange={handleNameChange}
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                />
+              </div>
+
+              <div className="mb-4">
+                <label htmlFor="name" className="block text-gray-700 font-bold mb-2">
+                  Hints:
+                </label>
+                <input
+                  type="text"
+                  id="description"
+                  value={description}
+                  onChange={handleDescriptionChange}
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 />
               </div>
