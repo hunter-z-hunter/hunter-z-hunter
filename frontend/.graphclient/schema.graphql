@@ -32,8 +32,10 @@ type HuntAdded {
   id: Bytes!
   huntId: String!
   name: String!
+  description: String!
   prize: BigInt!
   endTime: BigInt!
+  imageReference: String!
   target: String!
   blockNumber: BigInt!
   blockTimestamp: BigInt!
@@ -91,6 +93,26 @@ input HuntAdded_filter {
   name_ends_with_nocase: String
   name_not_ends_with: String
   name_not_ends_with_nocase: String
+  description: String
+  description_not: String
+  description_gt: String
+  description_lt: String
+  description_gte: String
+  description_lte: String
+  description_in: [String!]
+  description_not_in: [String!]
+  description_contains: String
+  description_contains_nocase: String
+  description_not_contains: String
+  description_not_contains_nocase: String
+  description_starts_with: String
+  description_starts_with_nocase: String
+  description_not_starts_with: String
+  description_not_starts_with_nocase: String
+  description_ends_with: String
+  description_ends_with_nocase: String
+  description_not_ends_with: String
+  description_not_ends_with_nocase: String
   prize: BigInt
   prize_not: BigInt
   prize_gt: BigInt
@@ -107,6 +129,26 @@ input HuntAdded_filter {
   endTime_lte: BigInt
   endTime_in: [BigInt!]
   endTime_not_in: [BigInt!]
+  imageReference: String
+  imageReference_not: String
+  imageReference_gt: String
+  imageReference_lt: String
+  imageReference_gte: String
+  imageReference_lte: String
+  imageReference_in: [String!]
+  imageReference_not_in: [String!]
+  imageReference_contains: String
+  imageReference_contains_nocase: String
+  imageReference_not_contains: String
+  imageReference_not_contains_nocase: String
+  imageReference_starts_with: String
+  imageReference_starts_with_nocase: String
+  imageReference_not_starts_with: String
+  imageReference_not_starts_with_nocase: String
+  imageReference_ends_with: String
+  imageReference_ends_with_nocase: String
+  imageReference_not_ends_with: String
+  imageReference_not_ends_with_nocase: String
   target: String
   target_not: String
   target_gt: String
@@ -163,8 +205,10 @@ enum HuntAdded_orderBy {
   id
   huntId
   name
+  description
   prize
   endTime
+  imageReference
   target
   blockNumber
   blockTimestamp

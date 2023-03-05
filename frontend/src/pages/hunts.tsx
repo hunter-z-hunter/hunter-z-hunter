@@ -8,23 +8,6 @@ export default function Hunts() {
   const [data, setData] = useState<huntsQuery>();
   const [timeLeft, setTimeLeft] = useState<number>(0);
 
-  const hints = [
-    "I'm green and full of chocololate",
-    "Find something that is soft and furry",
-    "Look for an object that can be found in nature and is green",
-    "This is an item that has a picture or word printed on it",
-    "This object is square shape and blue",
-    "This object is transparent",
-    "This object makes a sound when you shake it",
-    "Find an item that is used for writing / drawing",
-    "look for something made of metal and shiny",
-    "this item is a triangle shape and a bright color",
-    "This object makes a sound when you shake it",
-    "look for something made of metal and shiny",
-    "This is an item that has a picture or word printed on it",
-    "Look for an object that can be found in nature and is green",
-  ];
-
   useEffect(() => {
     execute(huntsDocument, {}).then((result) => {
       setData(result?.data);
@@ -162,7 +145,7 @@ export default function Hunts() {
               </div>
               <div className="ml-3">
                 <h2 className="font-bangers text-2xl font-semibold text-gray-900 tracking-tighter">{hunt.name}</h2>
-                <p className="text-gray-700 text-sm mb-4">{hints[index]}</p>
+                <p className="text-gray-700 text-sm mb-4">{hunt.description}</p>
                 <p>Prize: {ethers.utils.formatEther(hunt.prize)} ETH</p>
                 <p className="mb-4 font-semibold">{formatTime((hunt as any).timeLeft)} left</p>
                 <a href={`/hunt/${hunt.huntId}`} className="btn">

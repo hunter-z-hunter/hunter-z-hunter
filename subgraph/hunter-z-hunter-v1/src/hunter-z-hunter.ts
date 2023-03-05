@@ -10,10 +10,8 @@ export function handleHuntAdded(event: HuntAddedEvent): void {
   )
   entity.huntId = event.params.huntId
   entity.name = event.params.name
-  entity.description = event.params.description
   entity.prize = event.params.prize
   entity.endTime = event.params.endTime
-  entity.imageReference = event.params.imageReference
   entity.target = event.params.target
 
   entity.blockNumber = event.block.number

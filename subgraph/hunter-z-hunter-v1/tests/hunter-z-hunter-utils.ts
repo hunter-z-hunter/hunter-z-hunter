@@ -5,10 +5,8 @@ import { HuntAdded, PrizeWon } from "../generated/HunterZHunter/HunterZHunter"
 export function createHuntAddedEvent(
   huntId: string,
   name: string,
-  description: string,
   prize: BigInt,
   endTime: BigInt,
-  imageReference: string,
   target: string
 ): HuntAdded {
   let huntAddedEvent = changetype<HuntAdded>(newMockEvent())
@@ -22,24 +20,12 @@ export function createHuntAddedEvent(
     new ethereum.EventParam("name", ethereum.Value.fromString(name))
   )
   huntAddedEvent.parameters.push(
-    new ethereum.EventParam(
-      "description",
-      ethereum.Value.fromString(description)
-    )
-  )
-  huntAddedEvent.parameters.push(
     new ethereum.EventParam("prize", ethereum.Value.fromUnsignedBigInt(prize))
   )
   huntAddedEvent.parameters.push(
     new ethereum.EventParam(
       "endTime",
       ethereum.Value.fromUnsignedBigInt(endTime)
-    )
-  )
-  huntAddedEvent.parameters.push(
-    new ethereum.EventParam(
-      "imageReference",
-      ethereum.Value.fromString(imageReference)
     )
   )
   huntAddedEvent.parameters.push(

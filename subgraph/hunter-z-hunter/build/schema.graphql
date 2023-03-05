@@ -2,8 +2,10 @@ type HuntAdded @entity(immutable: true) {
   id: Bytes!
   huntId: String! # string
   name: String! # string
+  description: String! # string
   prize: BigInt! # uint256
   endTime: BigInt! # uint256
+  imageReference: String! # string
   target: String! # string
   blockNumber: BigInt!
   blockTimestamp: BigInt!

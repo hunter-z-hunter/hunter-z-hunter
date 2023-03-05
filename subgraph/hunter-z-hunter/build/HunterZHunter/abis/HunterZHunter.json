@@ -27,6 +27,12 @@
       },
       {
         "indexed": false,
+        "internalType": "string",
+        "name": "description",
+        "type": "string"
+      },
+      {
+        "indexed": false,
         "internalType": "uint256",
         "name": "prize",
         "type": "uint256"
@@ -36,6 +42,12 @@
         "internalType": "uint256",
         "name": "endTime",
         "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "imageReference",
+        "type": "string"
       },
       {
         "indexed": false,
@@ -85,9 +97,19 @@
         "type": "string"
       },
       {
+        "internalType": "string",
+        "name": "description",
+        "type": "string"
+      },
+      {
         "internalType": "uint256",
         "name": "endTime",
         "type": "uint256"
+      },
+      {
+        "internalType": "string",
+        "name": "imageReference",
+        "type": "string"
       },
       {
         "internalType": "string",

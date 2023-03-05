@@ -62,15 +62,6 @@ export class HuntAdded extends Entity {
     this.set("name", Value.fromString(value));
   }
 
-  get description(): string {
-    let value = this.get("description");
-    return value!.toString();
-  }
-
-  set description(value: string) {
-    this.set("description", Value.fromString(value));
-  }
-
   get prize(): BigInt {
     let value = this.get("prize");
     return value!.toBigInt();
@@ -87,15 +78,6 @@ export class HuntAdded extends Entity {
 
   set endTime(value: BigInt) {
     this.set("endTime", Value.fromBigInt(value));
-  }
-
-  get imageReference(): string {
-    let value = this.get("imageReference");
-    return value!.toString();
-  }
-
-  set imageReference(value: string) {
-    this.set("imageReference", Value.fromString(value));
   }
 
   get target(): string {

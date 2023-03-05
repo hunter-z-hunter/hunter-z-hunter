@@ -19,18 +19,14 @@ describe("Describe entity assertions", () => {
   beforeAll(() => {
     let huntId = "Example string value"
     let name = "Example string value"
-    let description = "Example string value"
     let prize = BigInt.fromI32(234)
     let endTime = BigInt.fromI32(234)
-    let imageReference = "Example string value"
     let target = "Example string value"
     let newHuntAddedEvent = createHuntAddedEvent(
       huntId,
       name,
-      description,
       prize,
       endTime,
-      imageReference,
       target
     )
     handleHuntAdded(newHuntAddedEvent)
@@ -62,12 +58,6 @@ describe("Describe entity assertions", () => {
     assert.fieldEquals(
       "HuntAdded",
       "0xa16081f360e3847006db660bae1c6d1b2e17ec2a-1",
-      "description",
-      "Example string value"
-    )
-    assert.fieldEquals(
-      "HuntAdded",
-      "0xa16081f360e3847006db660bae1c6d1b2e17ec2a-1",
       "prize",
       "234"
     )
@@ -76,12 +66,6 @@ describe("Describe entity assertions", () => {
       "0xa16081f360e3847006db660bae1c6d1b2e17ec2a-1",
       "endTime",
       "234"
-    )
-    assert.fieldEquals(
-      "HuntAdded",
-      "0xa16081f360e3847006db660bae1c6d1b2e17ec2a-1",
-      "imageReference",
-      "Example string value"
     )
     assert.fieldEquals(
       "HuntAdded",

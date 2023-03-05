@@ -22,6 +22,7 @@ export default function CreateHunt() {
     setSubmitting(true);
     const formData = new FormData();
     formData.append("name", name);
+    formData.append("description", description);
     formData.append("endTime", endTime);
     formData.append("prize", prize);
     if (photo) {

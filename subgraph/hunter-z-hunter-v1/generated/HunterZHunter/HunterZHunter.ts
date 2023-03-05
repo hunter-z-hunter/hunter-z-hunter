@@ -31,24 +31,16 @@ export class HuntAdded__Params {
     return this._event.parameters[1].value.toString();
   }
 
-  get description(): string {
-    return this._event.parameters[2].value.toString();
-  }
-
   get prize(): BigInt {
-    return this._event.parameters[3].value.toBigInt();
+    return this._event.parameters[2].value.toBigInt();
   }
 
   get endTime(): BigInt {
-    return this._event.parameters[4].value.toBigInt();
-  }
-
-  get imageReference(): string {
-    return this._event.parameters[5].value.toString();
+    return this._event.parameters[3].value.toBigInt();
   }
 
   get target(): string {
-    return this._event.parameters[6].value.toString();
+    return this._event.parameters[4].value.toString();
   }
 }
 
@@ -169,20 +161,12 @@ export class AddHuntCall__Inputs {
     return this._call.inputValues[1].value.toString();
   }
 
-  get description(): string {
-    return this._call.inputValues[2].value.toString();
-  }
-
   get endTime(): BigInt {
-    return this._call.inputValues[3].value.toBigInt();
-  }
-
-  get imageReference(): string {
-    return this._call.inputValues[4].value.toString();
+    return this._call.inputValues[2].value.toBigInt();
   }
 
   get target(): string {
-    return this._call.inputValues[5].value.toString();
+    return this._call.inputValues[3].value.toString();
   }
 }
 

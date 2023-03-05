@@ -6,9 +6,9 @@ dataSources:
     name: HunterZHunter
     network: mumbai
     source:
-      address: "0xECDeab86ce8162C3947C8dCEeBc35Bf3bFa62543"
+      address: "0x5040860f30cA29Ff4fAA45F9Cb03625E5467C3d5"
       abi: HunterZHunter
-      startBlock: 32727787
+      startBlock: 32549000
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -20,7 +20,7 @@ dataSources:
         - name: HunterZHunter
           file: HunterZHunter/abis/HunterZHunter.json
       eventHandlers:
-        - event: HuntAdded(string,string,string,uint256,uint256,string,string)
+        - event: HuntAdded(string,string,uint256,uint256,string)
           handler: handleHuntAdded
         - event: PrizeWon(string,address,uint256)
           handler: handlePrizeWon

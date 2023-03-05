@@ -5,8 +5,8 @@ import slugify from "@/utils/slugify";
 import { ethers } from "ethers";
 import dotenv from "dotenv";
 import { HZH_ADDRESS } from "../../../../config.js";
-import {FireblocksSDK, PeerType, TransactionOperation} from "fireblocks-sdk";
-import {formatEther, formatUnits} from "ethers/lib/utils";
+import { FireblocksSDK, PeerType, TransactionOperation } from "fireblocks-sdk";
+import { formatEther, formatUnits } from "ethers/lib/utils";
 
 dotenv.config();
 
@@ -90,7 +90,9 @@ export default async function handler(req: any, res: any) {
     const huntId: string = slugify(req.body.name);
     const name: string = req.body.name;
     const prize: any = ethers.utils.parseEther(req.body.prize);
+    const description = req.body.description;
     const endTime: number = Date.parse(req.body.endTime) / 1000;
+    const imageReference: string = "";
     const target = forwardOutput; //encryptedImageString.substring(0, 64); // substring temporarily to avoid gas fees
     console.log("target: ", target);
 
@@ -110,14 +112,26 @@ export default async function handler(req: any, res: any) {
     const hzhContract = new ethers.Contract(HZH_ADDRESS, hzhAbi, wallet);
 
     // Choose the right api url for your workspace type
-    const fireblocks = new FireblocksSDK(process.env.FIREBLOCKS_API_SECRET!, process.env.FIREBLOCKS_API_KEY!, "https://sandbox-api.fireblocks.io");
-    const transaction = await hzhContract.populateTransaction.addHunt(huntId, name, endTime, target.toString(), { value: prize });
+    const fireblocks = new FireblocksSDK(
+      process.env.FIREBLOCKS_API_SECRET!,
+      process.env.FIREBLOCKS_API_KEY!,
+      "https://sandbox-api.fireblocks.io"
+    );
+    const transaction = await hzhContract.populateTransaction.addHunt(
+      huntId,
+      name,
+      description,
+      endTime,
+      imageReference,
+      target.toString(),
+      { value: prize }
+    );
     const { id, status } = await fireblocks.createTransaction({
       operation: TransactionOperation.CONTRACT_CALL,
       assetId: "MATIC_POLYGON_MUMBAI",
       source: {
         type: PeerType.VAULT_ACCOUNT,
-        id: "2"
+        id: "2",
       },
       gasPrice: transaction.gasPrice != undefined ? formatUnits(transaction.gasPrice.toString(), "gwei") : undefined,
       gasLimit: transaction.gasLimit?.toString(),
@@ -125,14 +139,14 @@ export default async function handler(req: any, res: any) {
         type: PeerType.ONE_TIME_ADDRESS,
         id: "",
         oneTimeAddress: {
-          address: transaction.to!
-        }
+          address: transaction.to!,
+        },
       },
-      note: '',
+      note: "",
       amount: formatEther(transaction.value?.toString() || "0"),
       extraParameters: {
-        contractCallData: transaction.data
-      }
+        contractCallData: transaction.data,
+      },
     });
     console.log(`Fireblocks: ${id}, ${status}`);
 

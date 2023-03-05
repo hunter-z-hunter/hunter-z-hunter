@@ -35,8 +35,10 @@ export type HuntAdded = {
   id: Scalars['Bytes'];
   huntId: Scalars['String'];
   name: Scalars['String'];
+  description: Scalars['String'];
   prize: Scalars['BigInt'];
   endTime: Scalars['BigInt'];
+  imageReference: Scalars['String'];
   target: Scalars['String'];
   blockNumber: Scalars['BigInt'];
   blockTimestamp: Scalars['BigInt'];
@@ -94,6 +96,26 @@ export type HuntAdded_filter = {
   name_ends_with_nocase?: InputMaybe<Scalars['String']>;
   name_not_ends_with?: InputMaybe<Scalars['String']>;
   name_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']>;
+  description_not?: InputMaybe<Scalars['String']>;
+  description_gt?: InputMaybe<Scalars['String']>;
+  description_lt?: InputMaybe<Scalars['String']>;
+  description_gte?: InputMaybe<Scalars['String']>;
+  description_lte?: InputMaybe<Scalars['String']>;
+  description_in?: InputMaybe<Array<Scalars['String']>>;
+  description_not_in?: InputMaybe<Array<Scalars['String']>>;
+  description_contains?: InputMaybe<Scalars['String']>;
+  description_contains_nocase?: InputMaybe<Scalars['String']>;
+  description_not_contains?: InputMaybe<Scalars['String']>;
+  description_not_contains_nocase?: InputMaybe<Scalars['String']>;
+  description_starts_with?: InputMaybe<Scalars['String']>;
+  description_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  description_not_starts_with?: InputMaybe<Scalars['String']>;
+  description_not_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  description_ends_with?: InputMaybe<Scalars['String']>;
+  description_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  description_not_ends_with?: InputMaybe<Scalars['String']>;
+  description_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
   prize?: InputMaybe<Scalars['BigInt']>;
   prize_not?: InputMaybe<Scalars['BigInt']>;
   prize_gt?: InputMaybe<Scalars['BigInt']>;
@@ -110,6 +132,26 @@ export type HuntAdded_filter = {
   endTime_lte?: InputMaybe<Scalars['BigInt']>;
   endTime_in?: InputMaybe<Array<Scalars['BigInt']>>;
   endTime_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  imageReference?: InputMaybe<Scalars['String']>;
+  imageReference_not?: InputMaybe<Scalars['String']>;
+  imageReference_gt?: InputMaybe<Scalars['String']>;
+  imageReference_lt?: InputMaybe<Scalars['String']>;
+  imageReference_gte?: InputMaybe<Scalars['String']>;
+  imageReference_lte?: InputMaybe<Scalars['String']>;
+  imageReference_in?: InputMaybe<Array<Scalars['String']>>;
+  imageReference_not_in?: InputMaybe<Array<Scalars['String']>>;
+  imageReference_contains?: InputMaybe<Scalars['String']>;
+  imageReference_contains_nocase?: InputMaybe<Scalars['String']>;
+  imageReference_not_contains?: InputMaybe<Scalars['String']>;
+  imageReference_not_contains_nocase?: InputMaybe<Scalars['String']>;
+  imageReference_starts_with?: InputMaybe<Scalars['String']>;
+  imageReference_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  imageReference_not_starts_with?: InputMaybe<Scalars['String']>;
+  imageReference_not_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  imageReference_ends_with?: InputMaybe<Scalars['String']>;
+  imageReference_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  imageReference_not_ends_with?: InputMaybe<Scalars['String']>;
+  imageReference_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
   target?: InputMaybe<Scalars['String']>;
   target_not?: InputMaybe<Scalars['String']>;
   target_gt?: InputMaybe<Scalars['String']>;
@@ -166,8 +208,10 @@ export type HuntAdded_orderBy =
   | 'id'
   | 'huntId'
   | 'name'
+  | 'description'
   | 'prize'
   | 'endTime'
+  | 'imageReference'
   | 'target'
   | 'blockNumber'
   | 'blockTimestamp'
