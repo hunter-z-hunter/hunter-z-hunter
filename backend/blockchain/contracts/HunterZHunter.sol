@@ -45,6 +45,7 @@ contract HunterZHunter {
     }
 
     function verifyAndAwardPrize(string memory huntId, address winner, bytes memory proof) public {
+        
         // call another contract to do the verification
         (bool verified, bytes memory returnData) = verifyProof(winner, proof);
         require(verified, "Proof not verified");
@@ -58,10 +59,12 @@ contract HunterZHunter {
     }
 
     function verifyProof(address winner, bytes memory callData) private returns (bool success, bytes memory result) {
+        
         // Call the other contract with the provided address and data
-        (bool success, bytes memory returnData) = verifier.call(callData);
+        (bool success, bytes memory returnData) = verifier.staticcall(abi.decode(callData));
 
         // Return the result
         return (success, result);
     }
+
 }
