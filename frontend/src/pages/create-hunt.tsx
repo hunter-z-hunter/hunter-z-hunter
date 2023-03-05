@@ -24,7 +24,7 @@ export default function CreateHunt() {
     formData.append("name", name);
     formData.append("description", description);
     formData.append("endTime", endTime);
-    formData.append("prize", prize);
+    formData.append("prize", "0.00001"); // Hard code small amount for now
     if (photo) {
       formData.append("photo", photo);
     }
