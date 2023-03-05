@@ -2,7 +2,7 @@ import { ethers } from "hardhat";
 
 async function main() {
   const HzhContract = await ethers.getContractFactory("HunterZHunter");
-  const contract = await HzhContract.deploy("0x0000000000000000000000000000000000000000");
+  const contract = await HzhContract.deploy("0x3092452ca62368679459c241a3efa1d2cee0d543");
 
   await contract.deployed();
 
