@@ -1,12 +1,10 @@
-import { NextApiRequest, NextApiResponse } from "next";
 import multer from "multer";
 import convertImage from "@/utils/convertImage";
 import runMiddleware from "@/utils/runMiddleware";
 import slugify from "@/utils/slugify";
-import { getSimpleAccount } from "@/utils/getSimpleAccount";
-import { ethers, utils } from "ethers";
+import { ethers } from "ethers";
 import dotenv from "dotenv";
-import { HZH_ADDRESS, SIMPLE_ACCOUNT_FACTORY, ENTRY_POINT } from "../../../../config.js";
+import { HZH_ADDRESS } from "../../../../config.js";
 import {FireblocksSDK, PeerType, TransactionOperation} from "fireblocks-sdk";
 import {formatEther, formatUnits} from "ethers/lib/utils";
 
@@ -105,11 +103,9 @@ export default async function handler(req: any, res: any) {
 
     // ACCOUNT ABSTRACTION: Call contract to add hunt
     const hzhAbi = require("../../../abis/HunterZHunter.json").abi;
-    const hzhInterface = new ethers.utils.Interface(hzhAbi);
     const provider = new ethers.providers.JsonRpcProvider(process.env.ETH_PROVIDER_URL);
     // const signer = ethers.Wallet.createRandom(); // We can't do this because we can't any longer pass the smart wallet address into
     // const owner = new ethers.Wallet(signer, provider);
-    const simpleAccountApi = getSimpleAccount(provider, process.env.PRIVATE_KEY!, ENTRY_POINT, SIMPLE_ACCOUNT_FACTORY);
     const wallet = new ethers.Wallet(process.env.PRIVATE_KEY!, provider);
     const hzhContract = new ethers.Contract(HZH_ADDRESS, hzhAbi, wallet);
 
