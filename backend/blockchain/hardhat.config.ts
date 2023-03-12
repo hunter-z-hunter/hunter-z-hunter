@@ -40,10 +40,10 @@ const config: HardhatUserConfig = {
         chainId: 534353,
         urls: {
           apiURL: "https://blockscout.scroll.io/api",
-          browserURL: "https://blockscout.scroll.io"
-        }
-      }
-    ]
+          browserURL: "https://blockscout.scroll.io",
+        },
+      },
+    ],
   },
 };
 
