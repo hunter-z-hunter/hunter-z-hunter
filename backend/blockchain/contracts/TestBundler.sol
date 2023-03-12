@@ -2,7 +2,7 @@
 
 pragma solidity 0.8.15;
 
-contract HunterZHunter {
+contract TestBundler {
 
     struct Hunt {
         string huntId;
@@ -28,7 +28,7 @@ contract HunterZHunter {
     }
 
     function addHunt(string memory huntId, string memory name, string memory description, uint endTime, string memory imageReference, string memory target) public payable {
-        require(!huntsSaved[huntId], "hunt with provided id already exists");
+        // require(!huntsSaved[huntId], "hunt with provided id already exists");
         require(msg.value > 0, "prize cannot be zero");
 
         Hunt storage newHunt = hunts[huntId];
@@ -42,20 +42,45 @@ contract HunterZHunter {
 
         huntsSaved[huntId] = true;
         emit HuntAdded(huntId, name, description, msg.value, endTime, imageReference, target);
+    }   
+
+    // Test 1
+    event TestBundler1Event(string testParam);
+    function testBundler1(string memory testParam) public {
+        emit TestBundler1Event(testParam);
+    }    
+
+    // Test 2
+    event TestVerifyAndAwardPrizeEvent(string testParam);
+    function verifyAndAwardPrize(string memory testParam) public {
+
+        emit TestVerifyAndAwardPrizeEvent(testParam);
     }
 
-    function verifyAndAwardPrize(string memory huntId, address winner, bytes memory proof) public {
+    // Test 3
+    event TestVerifyAndAwardPrizeEvent1(string testParam, address winner);
+    function verifyAndAwardPrize1(string memory huntId, address winner) public {
         
-        // call another contract to do the verification
-        (bool verified, bytes memory returnData) = verifyProof(winner, proof);
-        require(verified, "Proof not verified");
+        emit TestVerifyAndAwardPrizeEvent1(huntId, winner);
+    }
 
+    // Test 4
+    event TestVerifyAndAwardPrizeEvent2(string testParam, address winner, bytes proof);
+    function verifyAndAwardPrize2(string memory huntId, address winner, bytes memory proof) public {
+        
+        emit TestVerifyAndAwardPrizeEvent2(huntId, winner, proof);
+    }
+
+    // Test 5
+    event TestVerifyAndAwardPrizeEvent3(string testParam, address winner, bytes proof);
+    function verifyAndAwardPrize3(string memory huntId, address winner, bytes memory proof) public {
+        
         // transfer prize ETH to the winner
         uint prize = hunts[huntId].prize;
         hunts[huntId].prize = 0;
         payable(winner).transfer(prize);
-
-        emit PrizeWon(huntId, winner, prize);
+        
+        emit TestVerifyAndAwardPrizeEvent3(huntId, winner, proof);
     }
 
     function verifyProof(address winner, bytes memory callData) private returns (bool success, bytes memory result) {
@@ -66,5 +91,7 @@ contract HunterZHunter {
         // Return the result
         return (success, result);
     }
+
+    
 
 }
