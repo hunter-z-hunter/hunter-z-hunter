@@ -2,11 +2,15 @@ import multer from "multer";
 import convertImage from "@/utils/convertImage";
 import runMiddleware from "@/utils/runMiddleware";
 import slugify from "@/utils/slugify";
+import { getSimpleAccount } from "@/utils/getSimpleAccount";
+import getGasFee from "@/utils/getGasFee";
+import { printOp } from "@/utils/opUtils";
 import { ethers } from "ethers";
 import dotenv from "dotenv";
-import { HZH_ADDRESS } from "../../../../config.js";
+import { HZH_ADDRESS, ENTRY_POINT, SIMPLE_ACCOUNT_FACTORY } from "../../../../config.js";
 import { FireblocksSDK, PeerType, TransactionOperation } from "fireblocks-sdk";
 import { formatEther, formatUnits } from "ethers/lib/utils";
+import { HttpRpcClient } from "@account-abstraction/sdk";
 
 dotenv.config();
 
@@ -105,50 +109,72 @@ export default async function handler(req: any, res: any) {
 
     // ACCOUNT ABSTRACTION: Call contract to add hunt
     const hzhAbi = require("../../../abis/HunterZHunter.json").abi;
+    const hzhInterface = new ethers.utils.Interface(hzhAbi);
     const provider = new ethers.providers.JsonRpcProvider(process.env.ETH_PROVIDER_URL);
-    // const signer = ethers.Wallet.createRandom(); // We can't do this because we can't any longer pass the smart wallet address into
+    // const signer = ethers.Wallet.createRandom();
     // const owner = new ethers.Wallet(signer, provider);
-    const wallet = new ethers.Wallet(process.env.PRIVATE_KEY!, provider);
-    const hzhContract = new ethers.Contract(HZH_ADDRESS, hzhAbi, wallet);
+    const simpleAccountApi = getSimpleAccount(provider, process.env.PRIVATE_KEY!, ENTRY_POINT, SIMPLE_ACCOUNT_FACTORY);
+    const op = await simpleAccountApi.createSignedUserOp({
+      target: HZH_ADDRESS,
+      value: prize,
+      data: hzhInterface.encodeFunctionData("addHunt", [
+        huntId,
+        name,
+        description,
+        endTime,
+        imageReference,
+        target.toString(),
+      ]),
+      ...(await getGasFee(provider)),
+    });
+    // op.preVerificationGas = 10000000;
+    console.log(`Signed UserOperation: ${await printOp(op)}`);
+    const chainId = await provider.getNetwork().then((net) => net.chainId);
+    const client = new HttpRpcClient(process.env.BUNDLER_URL!, ENTRY_POINT, chainId);
+    const uoHash = await client.sendUserOpToBundler(op);
+    console.log(`UserOpHash: ${uoHash}`);
+    console.log("Waiting for transaction...");
+    const txHash = await simpleAccountApi.getUserOpReceipt(uoHash);
+    console.log(`Transaction hash: ${txHash}`);
 
     // Choose the right api url for your workspace type
-    const fireblocks = new FireblocksSDK(
-      process.env.FIREBLOCKS_API_SECRET!,
-      process.env.FIREBLOCKS_API_KEY!,
-      "https://sandbox-api.fireblocks.io"
-    );
-    const transaction = await hzhContract.populateTransaction.addHunt(
-      huntId,
-      name,
-      description,
-      endTime,
-      imageReference,
-      target.toString(),
-      { value: prize }
-    );
-    const { id, status } = await fireblocks.createTransaction({
-      operation: TransactionOperation.CONTRACT_CALL,
-      assetId: "MATIC_POLYGON_MUMBAI",
-      source: {
-        type: PeerType.VAULT_ACCOUNT,
-        id: "2",
-      },
-      gasPrice: transaction.gasPrice != undefined ? formatUnits(transaction.gasPrice.toString(), "gwei") : undefined,
-      gasLimit: transaction.gasLimit?.toString(),
-      destination: {
-        type: PeerType.ONE_TIME_ADDRESS,
-        id: "",
-        oneTimeAddress: {
-          address: transaction.to!,
-        },
-      },
-      note: "",
-      amount: formatEther(transaction.value?.toString() || "0"),
-      extraParameters: {
-        contractCallData: transaction.data,
-      },
-    });
-    console.log(`Fireblocks: ${id}, ${status}`);
+    // const fireblocks = new FireblocksSDK(
+    //   process.env.FIREBLOCKS_API_SECRET!,
+    //   process.env.FIREBLOCKS_API_KEY!,
+    //   "https://sandbox-api.fireblocks.io"
+    // );
+    // const transaction = await hzhContract.populateTransaction.addHunt(
+    //   huntId,
+    //   name,
+    //   description,
+    //   endTime,
+    //   imageReference,
+    //   target.toString(),
+    //   { value: prize }
+    // );
+    // const { id, status } = await fireblocks.createTransaction({
+    //   operation: TransactionOperation.CONTRACT_CALL,
+    //   assetId: "MATIC_POLYGON_MUMBAI",
+    //   source: {
+    //     type: PeerType.VAULT_ACCOUNT,
+    //     id: "2",
+    //   },
+    //   gasPrice: transaction.gasPrice != undefined ? formatUnits(transaction.gasPrice.toString(), "gwei") : undefined,
+    //   gasLimit: transaction.gasLimit?.toString(),
+    //   destination: {
+    //     type: PeerType.ONE_TIME_ADDRESS,
+    //     id: "",
+    //     oneTimeAddress: {
+    //       address: transaction.to!,
+    //     },
+    //   },
+    //   note: "",
+    //   amount: formatEther(transaction.value?.toString() || "0"),
+    //   extraParameters: {
+    //     contractCallData: transaction.data,
+    //   },
+    // });
+    // console.log(`Fireblocks: ${id}, ${status}`);
 
     // Success
     res.status(200).json({ result: "success" });
