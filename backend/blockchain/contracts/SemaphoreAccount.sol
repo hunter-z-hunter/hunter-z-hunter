@@ -12,12 +12,6 @@ import "@account-abstraction/contracts/core/BaseAccount.sol";
 
 import "../interfaces/ISemaphore.sol";
 
-/**
-  * minimal account.
-  *  this is sample minimal account.
-  *  has execute, eth handling methods
-  *  has a single signer that can send requests through the entryPoint.
-  */
 contract SemaphoreAccount is BaseAccount, UUPSUpgradeable, Initializable {
     using ECDSA for bytes32;
 
@@ -29,6 +23,7 @@ contract SemaphoreAccount is BaseAccount, UUPSUpgradeable, Initializable {
     uint96 private _nonce;
     address public owner;
     ISemaphore public semaphore;
+    uint256 public groupId; //TODO: add a owner revise groupId function??
 
     IEntryPoint private immutable _entryPoint;
 
@@ -53,10 +48,11 @@ contract SemaphoreAccount is BaseAccount, UUPSUpgradeable, Initializable {
     // solhint-disable-next-line no-empty-blocks
     receive() external payable {}
 
-    constructor(IEntryPoint anEntryPoint, ISemaphore semaphoreAddr) {
+    constructor(IEntryPoint anEntryPoint, ISemaphore semaphoreAddr, uint256 groupId) {
         _entryPoint = anEntryPoint;
         semaphore = semaphoreAddr;
         owner = msg.sender;
+        groupId = groupId;
         _disableInitializers();
     }
 
@@ -111,16 +107,14 @@ contract SemaphoreAccount is BaseAccount, UUPSUpgradeable, Initializable {
     /// implement template method of BaseAccount
     function _validateSignature(UserOperation calldata userOp, bytes32 userOpHash)
     internal override virtual returns (uint256 validationData) {
-        bytes32 hash = userOpHash.toEthSignedMessageHash();
+        //need to veriy groupId = specific group. Specific group should be stored as state on this contract in constructor/initializer
+        //signal should be userOpHash so we know group member has signed this specific userOp. require(signal == userOpHash.toEthSignedMessageHash());
+        //external nullifier should = _nonce to prevent replay.
+        //user submits merkleTreeRoot as they may have a recently out of date version that sould still be affected. .verifyProof() verifies the merkleTreeRoot is valid
 
-        // rather than the regular check that the signer is the owner...
-
-        // if (owner != hash.recover(userOp.signature))
-        //     return SIG_VALIDATION_FAILED;
-
-        // ...we verify the semaphore proof sent as the signature
-        (uint256 groupId, uint256 merkleTreeRoot, uint256 signal, uint256 nullifierHash, uint256 externalNullifier, uint256[8] memory proof) = abi.decode(userOp.signature, (uint256, uint256, uint256, uint256, uint256, uint256[8]));
-        semaphore.verifyProof(groupId, merkleTreeRoot, signal, nullifierHash, externalNullifier, proof);
+        (uint256 merkleTreeRoot, uint256 nullifierHash, uint256[8] memory proof) = abi.decode(userOp.signature, (uint256, uint256, uint256[8]));
+        
+        semaphore.verifyProof(groupId, merkleTreeRoot, userOpHash /* =signal */, nullifierHash, _nonce /* =externalNullifier */, proof);
 
         return 0;
     }
