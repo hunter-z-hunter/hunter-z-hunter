@@ -114,7 +114,7 @@ contract SemaphoreAccount is BaseAccount, UUPSUpgradeable, Initializable {
 
         (uint256 merkleTreeRoot, uint256 nullifierHash, uint256[8] memory proof) = abi.decode(userOp.signature, (uint256, uint256, uint256[8]));
         
-        semaphore.verifyProof(groupId, merkleTreeRoot, userOpHash /* =signal */, nullifierHash, _nonce /* =externalNullifier */, proof);
+        semaphore.verifyProof(groupId, merkleTreeRoot, userOpHash /* =signal */, nullifierHash, userOp.nonce /* =externalNullifier */, proof);
 
         return 0;
     }
